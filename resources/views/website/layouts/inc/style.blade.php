@@ -27,11 +27,14 @@
 
 <style>
     :root {
-  --priamary: {{ $websiteColor->primary_color }};
+  --primary: {{ $websiteColor->primary_color }};
   --secondary: {{ $websiteColor->secondary_color }};
   --base: {{ $websiteColor->base_color }};
-  --black: rgb(51, 51, 51);
-  --white: rgb(255, 255, 255);
+  --secondary-text: {{ $websiteColor->secondary_text }};
+  --btn-primary: {{ $websiteColor->btn_primary }};
+  --hover-button: {{ $websiteColor->btn_hover }};
+  --black: {{ $websiteColor->black }};
+  --white: {{ $websiteColor->white }};
   --basebg: {{ $websiteColor->base_bg_color }};
   --heading-font: "Nunito", sans-serif;
   --title-font: "Pacifico", cursive;

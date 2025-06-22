@@ -19,6 +19,11 @@ class WebsiteColorController extends Controller
         $websiteColor->update([
             'primary_color' => $reques->primary_color,
             'secondary_color' => $reques->secondary_color,
+            'secondary_text' => $reques->secondary_text,
+            'btn_primary' => $reques->btn_primary,
+            'btn_hover' => $reques->btn_hover,
+            'black' => $reques->black,
+            'white' => $reques->white,
             'base_color' => $reques->base_color,
             'base_bg_color' => $reques->base_bg_color,
         ]);

@@ -85,15 +85,70 @@
                                 </div>
                             </div>
 
-
                             <div class="row clearfix">
                                 <div class="col-lg-6 col-md-6 col-sm-8 col-xs-7 mb-3">
-                                    <label for="customFile"><b>Base Color</b></label>
+                                    <label for="secondary_text"><b>Secondary Text Color</b></label>
                                     <div class="form-group">
                                         <div class="input-group colorpicker">
                                             <div class="form-line" style="border: 1px solid #ccc">
-                                                <input type="text" class="form-control" name="base_color"
-                                                    value="{{ $website_color->base_color }}">
+                                                <input type="text" class="form-control" name="secondary_text"
+                                                    value="{{ $website_color->secondary_text }}">
+                                            </div>
+                                            <span class="input-group-addon"> <i></i> </span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-6 col-md-6 col-sm-8 col-xs-7 mb-3">
+                                    <label for="btn_primary"><b>Button Primary Color</b></label>
+                                    <div class="form-group">
+                                        <div class="input-group colorpicker">
+                                            <div class="form-line" style="border: 1px solid #ccc">
+                                                <input type="text" class="form-control" name="btn_primary"
+                                                    value="{{ $website_color->btn_primary }}">
+                                            </div>
+                                            <span class="input-group-addon"> <i></i> </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row clearfix">
+                                <div class="col-lg-6 col-md-6 col-sm-8 col-xs-7 mb-3">
+                                    <label for="btn_hover"><b>Button Hover Color</b></label>
+                                    <div class="form-group">
+                                        <div class="input-group colorpicker">
+                                            <div class="form-line" style="border: 1px solid #ccc">
+                                                <input type="text" class="form-control" name="btn_hover"
+                                                    value="{{ $website_color->btn_hover }}">
+                                            </div>
+                                            <span class="input-group-addon"> <i></i> </span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-6 col-md-6 col-sm-8 col-xs-7 mb-3">
+                                    <label for="black"><b>Black Color</b></label>
+                                    <div class="form-group">
+                                        <div class="input-group colorpicker">
+                                            <div class="form-line" style="border: 1px solid #ccc">
+                                                <input type="text" class="form-control" name="black"
+                                                    value="{{ $website_color->black }}">
+                                            </div>
+                                            <span class="input-group-addon"> <i></i> </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row clearfix">
+                                <div class="col-lg-6 col-md-6 col-sm-8 col-xs-7 mb-3">
+                                    <label for="white"><b>White Color</b></label>
+                                    <div class="form-group">
+                                        <div class="input-group colorpicker">
+                                            <div class="form-line" style="border: 1px solid #ccc">
+                                                <input type="text" class="form-control" name="white"
+                                                    value="{{ $website_color->white }}">
                                             </div>
                                             <span class="input-group-addon"> <i></i> </span>
                                         </div>
@@ -112,6 +167,26 @@
                                         </div>
                                     </div>
                                 </div>
+
+
+                            </div>
+
+
+
+                            <div class="row clearfix">
+                                <div class="col-lg-6 col-md-6 col-sm-8 col-xs-7 mb-3">
+                                    <label for="customFile"><b>Base Color</b></label>
+                                    <div class="form-group">
+                                        <div class="input-group colorpicker">
+                                            <div class="form-line" style="border: 1px solid #ccc">
+                                                <input type="text" class="form-control" name="base_color"
+                                                    value="{{ $website_color->base_color }}">
+                                            </div>
+                                            <span class="input-group-addon"> <i></i> </span>
+                                        </div>
+                                    </div>
+                                </div>
+
                             </div>
 
 

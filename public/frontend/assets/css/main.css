@@ -9250,3 +9250,14 @@ Css For search result
     border-color: var(--primary) !important;
     color: var(--primary) !important;
 }
+
+.bottom-footer__text_dev a {
+    text-decoration: underline;
+    font-style: italic;
+    color: var(--white);
+}
+
+.bottom-footer__text_dev a:hover {
+    font-style: italic;
+    color: var(--hover-button);
+}
