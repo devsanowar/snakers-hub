@@ -49,13 +49,13 @@ Route::prefix('admin')
             Route::get('create', [UserController::class, 'userCreate'])->name('user.create');
             Route::post('store', [UserController::class, 'storeUser'])->name('user.store');
             Route::get('{id}/edit', [UserController::class, 'edit'])->name('edit.user');
-            Route::post('{id}/update', [UserController::class, 'updateUser'])->name('update.user');
+            Route::put('update/{id}', [UserController::class, 'update'])->name('user.update');
             Route::get('profile', [UserController::class, 'profile'])->name('user.profile');
             Route::post('profile/{id}/image', [UserController::class, 'profileImageUpdate'])->name('update.profile.image');
             Route::post('password/{id}/change', [UserController::class, 'passwordUpdate'])->name('update.password');
             Route::delete('delete/{id}', [UserController::class, 'destroyUser'])->name('user.destroy');
 
-            Route::get('/customer-list/', [UserController::class, 'customerList'])->name('customerList');
+            Route::get('customer-list/', [UserController::class, 'customerList'])->name('customerList');
         });
 
         // Website Settings
@@ -140,6 +140,8 @@ Route::prefix('admin')
             Route::put('{id}', [CategoryController::class, 'update'])->name('category.update');
             Route::delete('{id}', [CategoryController::class, 'destroy'])->name('category.destroy');
             Route::post('/category/status-change', [CategoryController::class, 'categoryChangeStatus'])->name('category.status');
+            Route::post('bulk-delete', [CategoryController::class, 'bulkDelete'])->name('category.bulkDelete');
+            Route::post('update-order', [CategoryController::class, 'updateOrder'])->name('category.updateOrder');
         });
 
         // Sub Category

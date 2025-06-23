@@ -31,9 +31,8 @@ class UserController extends Controller
             'email' => ['required', new Unique('users', 'email')],
             'phone' => ['required', new Unique('users', 'phone')],
             'password' => 'required|string|min:6|confirmed',
-            'system_admin' => 'required',
+            'system_admin' => 'nullable',
         ]);
-
 
         User::create([
             'name' => $request->name,
@@ -68,7 +67,6 @@ class UserController extends Controller
                 if ($user->image && file_exists($imagePath)) {
                     unlink($imagePath);
                 }
-
 
                 $imageName = time() . '-' . $request->file('image')->getClientOriginalName();
                 $destinationPath = public_path('uploads/profile_image/');
@@ -120,24 +118,33 @@ class UserController extends Controller
         return view('admin.layouts.profile.edit_user', compact('user'));
     }
 
-    public function updateUser(Request $request, $id)
+    public function update(Request $request, $id)
     {
-        $user = User::find($id);
-        $decryptedPassword = Crypt::decryptString($user->password);
-        dd($decryptedPassword);
-
-        //Update the new Password
-        $user->update([
-            'name' => $request->name,
-            'email' => $request->email,
-            'phone' => $request->phone,
-            'password' => Hash::make($request->new_password),
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email',
+            'phone' => 'required|string',
+            'system_admin' => 'nullable|in:Admin,User',
+            'password' => 'nullable|min:6|confirmed',
         ]);
 
-        Session::flush();
+        $user = User::findOrFail($id);
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->phone = $request->phone;
+        $user->system_admin = $request->system_admin;
 
-        return redirect()->route('user.create')->with('success', 'User updated successfully');
+        if ($request->filled('password')) {
+            $user->password = bcrypt($request->password);
+        }
+
+        $user->save();
+
+        return redirect()->route('user.create')->with('success', 'User updated successfully.');
     }
+
+
+
 
     public function destroyUser($id)
     {
@@ -147,15 +154,11 @@ class UserController extends Controller
         return redirect()->route('user.create')->with('success', 'User deleted successfully');
     }
 
-
-
-    public function customerList(){
+    public function customerList()
+    {
         $customers = Order::select(['id', 'first_name', 'last_name', 'phone', 'address'])->get();
         return view('admin.layouts.profile.show_clint', compact('customers'));
     }
 
-
-    public function destroy($id){
-
-    }
+    public function destroy($id) {}
 }

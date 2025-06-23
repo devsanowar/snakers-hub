@@ -15,7 +15,7 @@ class CategoryController extends Controller
 {
     public function index()
     {
-        $categories = Category::latest()->get();
+        $categories = Category::orderBy('position')->get();
         return view('admin.layouts.pages.category.index', compact('categories'));
     }
 
@@ -82,14 +82,13 @@ class CategoryController extends Controller
             return back();
         }
 
-
         $defaultCategory = Category::where('category_slug', 'default')->first();
         if (!$defaultCategory) {
             Toastr::error('Category deleted successfully.');
             return back();
         }
         $category->products()->update([
-            'category_id' => $defaultCategory->id
+            'category_id' => $defaultCategory->id,
         ]);
 
         if ($category) {
@@ -106,17 +105,75 @@ class CategoryController extends Controller
         return redirect()->back();
     }
 
-    // Image add and update code here
-    private function categoryImage(Request $request)
+    public function bulkDelete(Request $request)
     {
-        if ($request->hasFile('image')) {
-            $image = Image::read($request->file('image'));
-            $imageName = time() . '-' . $request->file('image')->getClientOriginalName();
-            $destinationPath = public_path('uploads/category_image/');
-            $image->save($destinationPath . $imageName);
-            return 'uploads/category_image/' . $imageName;
+        $ids = $request->input('ids', []);
+
+        if (empty($ids)) {
+            return response()->json(['success' => false, 'message' => 'No categories selected.']);
         }
-        return null;
+
+        // Get default category
+        $defaultCategory = Category::where('category_slug', 'default')->first();
+
+        if (!$defaultCategory) {
+            return response()->json(['success' => false, 'message' => 'Default category not found.']);
+        }
+
+        // Check if default category is in selected IDs
+        if (in_array($defaultCategory->id, $ids)) {
+            return response()->json(['success' => false, 'message' => 'Please do not select the default category.']);
+        }
+
+        // Now safe to delete others
+        $deletedCount = 0;
+
+        foreach ($ids as $id) {
+            $category = Category::find($id);
+
+            if (!$category) {
+                continue;
+            }
+
+            // Transfer products to default category
+            $category->products()->update([
+                'category_id' => $defaultCategory->id,
+            ]);
+
+            // Delete category image from storage
+            if (!empty($category->image)) {
+                $oldImagePath = public_path($category->image);
+                if (file_exists($oldImagePath) && is_file($oldImagePath)) {
+                    unlink($oldImagePath);
+                }
+            }
+
+            $category->delete();
+            $deletedCount++;
+        }
+
+        if ($deletedCount > 0) {
+            return response()->json(['success' => true, 'message' => "$deletedCount category(s) deleted successfully."]);
+        }
+
+        return response()->json(['success' => false, 'message' => 'No valid category was deleted.']);
+    }
+
+    // Category orderBy position
+    public function updateOrder(Request $request)
+    {
+        if (!$request->has('position') || !is_array($request->position)) {
+            return response()->json(['success' => false, 'message' => 'Invalid data received.'], 400);
+        }
+
+        foreach ($request->position as $index => $id) {
+            Category::where('id', $id)->update(['position' => $index + 1]);
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Position updated successfully.',
+        ]);
     }
 
     public function categoryChangeStatus(Request $request)
@@ -136,5 +193,18 @@ class CategoryController extends Controller
             'new_status' => $category->is_active ? 'Active' : 'DeActive',
             'class' => $category->is_active ? 'btn-success' : 'btn-danger',
         ]);
+    }
+
+    // Image add and update code here
+    private function categoryImage(Request $request)
+    {
+        if ($request->hasFile('image')) {
+            $image = Image::read($request->file('image'));
+            $imageName = time() . '-' . $request->file('image')->getClientOriginalName();
+            $destinationPath = public_path('uploads/category_image/');
+            $image->save($destinationPath . $imageName);
+            return 'uploads/category_image/' . $imageName;
+        }
+        return null;
     }
 }

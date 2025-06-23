@@ -31,7 +31,12 @@ class FrontendController extends Controller
     public function index()
     {
         $banner = Banner::select(['id', 'title', 'sub_title', 'description', 'button_name', 'button_url', 'image'])->first();
-        $categories = Category::with('products')->where('category_slug', '!=', 'default')->select('id', 'category_name', 'image', 'category_slug')->get();
+        $categories = Category::with('products')
+            ->where('category_slug', '!=', 'default')
+            ->where('is_active', 1)
+            ->select('id', 'category_name', 'image', 'category_slug','position')
+            ->orderBy('position', 'asc')
+            ->get();
 
         $promobanners = Promobanner::where('is_active', 1)
             ->latest()
@@ -79,7 +84,7 @@ class FrontendController extends Controller
             return view('website.layouts.pages.product.partials.products', compact('products'))->render();
         }
 
-        $categories = Category::get(['id', 'category_name', 'category_slug']);
+        $categories = Category::where('is_active', 1)->get(['id', 'category_name', 'category_slug']);
         $brands = Brand::with('products')->get(['id', 'brand_name']);
 
         return view('website.layouts.pages.product.shop-page', compact('products', 'categories', 'brands', 'pageTitle'));

@@ -104,7 +104,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group mb-4>
+                        {{-- <div class="form-group mb-4">
                             <label for="brand_id"><b>Role*</b></label>
                             <div class="form-group">
                                 <div class="" style="border: 1px solid #ccc">
@@ -115,7 +115,7 @@
                                     </select>
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
 
 
                         <button type="submit" class="btn btn-raised btn-warning text-white m-t-15 waves-effect right mb-3" style="font-weight: 500"> SAVE </button>
@@ -165,6 +165,11 @@
                                         <button type="submit" class="btn btn-danger btn-sm show_confirm"><i class="material-icons">delete</i></button>
                                     </form>
                                 </td>
+
+</td>
+
+
+
                             </tr>
                             @endforeach
 
